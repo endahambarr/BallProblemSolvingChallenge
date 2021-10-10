@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class BoxSpawner : MonoBehaviour
 {
-    public float minX, maxX, minY, maxY, objectSizeMax;
+    public float areaLebar, areaPanjang, objectSizeMax;
     public GameObject BoxPrefabs;
+    float areaTengah;
     // Start is called before the first frame update
     void Start()
     {
-        int objectCount = 5;
+        areaTengah = 0.5f;
+        int objectCount;
+        objectCount = Random.Range(1, 100);   
         GameObject box;
         for (int i = 0; i < objectCount; i++)
         {
-            float randomX = Random.Range(minX, maxX);
-            float randomY = Random.Range(minY, maxY);
+            float randomX = Random.Range(-areaLebar + areaTengah, areaLebar - areaTengah);
+            float randomY = Random.Range(-areaPanjang + areaTengah, areaPanjang - areaTengah);
             box = Instantiate(BoxPrefabs, new Vector2(randomX, randomY), Quaternion.identity);
             box.transform.localScale = new Vector2 (Random.Range(0, objectSizeMax) + 0.5f , Random.Range(0, objectSizeMax) + 0.5f);
         }
