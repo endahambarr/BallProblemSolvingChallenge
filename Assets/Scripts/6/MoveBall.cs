@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MoveBall : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class MoveBall : MonoBehaviour
     //referensi ke camera utama
     Camera Camera;
     Vector2 point;
+    public Text scoreText;
+    private int score;
 
     // Start is called before the first frame update
     void Start()
@@ -21,11 +24,14 @@ public class MoveBall : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        point = Camera.ScreenToWorldPoint(Input.mousePosition);
+       
+
+        scoreText.text = "Score :" + score.ToString();
     }
 
     private void FixedUpdate()
     {
+        point = Camera.ScreenToWorldPoint(Input.mousePosition);
         Move(point);
     }
 
@@ -33,5 +39,12 @@ public class MoveBall : MonoBehaviour
     {
         //untuk move menggunakan mouse
         rb.position = Vector3.MoveTowards(transform.position, pointPosition, speed * Time.deltaTime);
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Box")
+        {
+            score++;
+        }
     }
 }
