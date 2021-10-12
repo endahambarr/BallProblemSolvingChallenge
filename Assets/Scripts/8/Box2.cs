@@ -22,7 +22,7 @@ public class Box2 : MonoBehaviour
     {
         if (collision.gameObject.name == "Ball")
         {
-            BoxSpawner3.Instance.ReturnToPool(gameObject);
+            CrysSpawner.Instance.ReturnToPool(gameObject);
         }
     }
 
