@@ -22,7 +22,7 @@ public class Crys : MonoBehaviour
     {
         if (collision.gameObject.name == "Core")
         {
-            CrysSpawner.Instance.ReturnToPool(gameObject);
+            CrysSpawner.Instance.ReturnToPol(gameObject);
         }
     }
 

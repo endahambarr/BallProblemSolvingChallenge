@@ -7,7 +7,7 @@ public class CrysSpawner : MonoBehaviour
     public GameObject crysPrefab;
     public float areaLebar, areaPanjang, objectSizeMax, respawnInterval;
     // pool list
-    private Dictionary<string, List<GameObject>> pool;
+    private Dictionary<string, List<GameObject>> pol;
     private List<GameObject> crysList;
     float areaTengah;
 
@@ -21,38 +21,38 @@ public class CrysSpawner : MonoBehaviour
     private void spawnCrys()
     {
         // init pool
-        pool = new Dictionary<string, List<GameObject>>();
+        pol = new Dictionary<string, List<GameObject>>();
         GameObject crys;
         int objectCount;
         objectCount = Random.Range(1, 100);
         for (int i = 0; i < objectCount; i++)
         {
-            crys = GenerateFromPool(crysPrefab);
+            crys = GenerateFromPol(crysPrefab);
             float randomScale = Random.Range(0, objectSizeMax) + 0.25f;
             crys.transform.localScale = new Vector2(randomScale, randomScale);
         }
     }
-    private GameObject GenerateFromPool(GameObject item)
+    private GameObject GenerateFromPol(GameObject item)
     {
         //generate random position that doesnt collide with ball
         Vector2 position = generateRandomPosition();
 
-        if (pool.ContainsKey(item.name))
+        if (pol.ContainsKey(item.name))
         {
             // if item available in pool
-            if (pool[item.name].Count > 0)
+            if (pol[item.name].Count > 0)
             {
-                GameObject newItemFromPool = pool[item.name][0];
-                pool[item.name].Remove(newItemFromPool);
-                newItemFromPool.SetActive(true);
-                newItemFromPool.transform.position = position;
-                return newItemFromPool;
+                GameObject newItemFromPol = pol[item.name][0];
+                pol[item.name].Remove(newItemFromPol);
+                newItemFromPol.SetActive(true);
+                newItemFromPol.transform.position = position;
+                return newItemFromPol;
             }
         }
         else
         {
             // if item list not defined, create new one
-            pool.Add(item.name, new List<GameObject>());
+            pol.Add(item.name, new List<GameObject>());
         }
 
         // create new one if no item available in pool
@@ -61,13 +61,13 @@ public class CrysSpawner : MonoBehaviour
         return newItem;
     }
 
-    public void ReturnToPool(GameObject item)
+    public void ReturnToPol(GameObject item)
     {
-        if (!pool.ContainsKey(item.name))
+        if (!pol.ContainsKey(item.name))
         {
-            Debug.LogError("INVALID POOL ITEM!!");
+            Debug.LogError("INVALID POL ITEM!!");
         }
-        pool[item.name].Add(item);
+        pol[item.name].Add(item);
         item.SetActive(false);
         StartCoroutine("spawn");
     }
@@ -75,7 +75,7 @@ public class CrysSpawner : MonoBehaviour
     IEnumerator spawn()
     {
         yield return new WaitForSeconds(respawnInterval);
-        GenerateFromPool(crysPrefab);
+        GenerateFromPol(crysPrefab);
     }
     // Update is called once per frame
     private bool checkInsideSphere(Vector2 position)

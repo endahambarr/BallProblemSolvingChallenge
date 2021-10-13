@@ -58,7 +58,7 @@ public class CoreMove : MonoBehaviour
 
             if (CurrentScene)
             {
-                Invoke("RespawnBox", 3f);
+                Invoke("RespawnCrys", 3f);
                 //Menambah sfx saat score bertambah
                 if (scene9)
                 {
