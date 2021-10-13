@@ -11,20 +11,23 @@ public class CoreMove : MonoBehaviour
     //referensi ke camera utama
     Camera Camera;
     Vector2 point;
+
     public Text scoreText;
     public AudioClip sFx;
     private int score;
-    public bool scene9;
-    private bool currentScene;
 
+    public bool scene9;
+    public bool currentScene;
     public bool CurrentScene { get => currentScene; set => currentScene = value; }
+
+    public GameObject Wall;
 
     // Start is called before the first frame update
     void Start()
     {
         Camera = Camera.main;
         rb = gameObject.GetComponent<Rigidbody2D>();
-
+        //Menambahkan backsound game
         if (scene9)
         {
             SoundManager.Instance.PlaySfx("backsound");
@@ -42,12 +45,11 @@ public class CoreMove : MonoBehaviour
         point = Camera.ScreenToWorldPoint(Input.mousePosition);
         Move(point);
     }
-
-    public void Move(Vector2 pointPosition)
-    {
+    //Core dapat tembus Wall dengan adanya gaya dorong
+    public void Move(Vector2 pointPosition) =>
         //untuk move menggunakan mouse
-        rb.position = Vector3.MoveTowards(transform.position, pointPosition, speed * Time.deltaTime);
-    }
+        rb.position = Vector3.Lerp(transform.position, pointPosition, speed * Time.deltaTime);
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Crys")
@@ -57,7 +59,7 @@ public class CoreMove : MonoBehaviour
             if (CurrentScene)
             {
                 Invoke("RespawnBox", 3f);
-
+                //Menambah sfx saat score bertambah
                 if (scene9)
                 {
                     SoundManager.Instance.PlaySfx("eat");
